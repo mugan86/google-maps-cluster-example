@@ -6,15 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.anartzmugika.clustergooglemaps.cluster.PersonClusterRenderer;
 import com.anartzmugika.clustergooglemaps.model.Person;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
@@ -58,10 +57,11 @@ public class MapsActivityWithClusterActions extends FragmentActivity
         mMap = googleMap;
 
         //Cluster Manage with click actions in cluster and inside cluster markers :)
-        double latitude = 51.503186;
-        double longitude = -0.126446;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 5));
+
+        addItems();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Config.getMapCenterPosition(1, person_list), 5));
         mClusterManager = new ClusterManager<>(this, mMap);
+        mClusterManager.setRenderer(new PersonClusterRenderer(this, mMap ,mClusterManager));
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
         mMap.setOnInfoWindowClickListener(mClusterManager);
@@ -69,8 +69,11 @@ public class MapsActivityWithClusterActions extends FragmentActivity
         mClusterManager.setOnClusterInfoWindowClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
+        for(Person person:person_list)
+        {
+            mClusterManager.addItem(person);
+        }
 
-        addItems();
         mClusterManager.cluster();
 
         Config.getGoogleMapUISettings(mMap, true, true);
@@ -110,13 +113,6 @@ public class MapsActivityWithClusterActions extends FragmentActivity
     public boolean onClusterItemClick(Person person) {
         //Create select marker info window to show this select info
         Toast.makeText(getApplicationContext(), person.name, Toast.LENGTH_LONG).show();
-        Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(person.getPosition())
-                .title(person.name)
-                .snippet("Snippet " + person.getPosition())
-                .icon(BitmapDescriptorFactory.defaultMarker()));
-
-        marker.showInfoWindow();
 
         return false;
     }
@@ -139,10 +135,6 @@ public class MapsActivityWithClusterActions extends FragmentActivity
         person_list.add(new Person(position(), "Trevor the Turtle", R.drawable.turtle));
         person_list.add(new Person(position(), "Teach", R.drawable.teacher));
 
-        for(Person person:person_list)
-        {
-            mClusterManager.addItem(person);
-        }
     }
 
     private LatLng position() {
