@@ -21,4 +21,10 @@ public class Person implements ClusterItem {
     public LatLng getPosition() {
         return mPosition;
     }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
 }
