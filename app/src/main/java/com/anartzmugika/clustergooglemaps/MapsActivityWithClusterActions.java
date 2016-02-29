@@ -1,6 +1,7 @@
 package com.anartzmugika.clustergooglemaps;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -56,10 +57,33 @@ public class MapsActivityWithClusterActions extends FragmentActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        addItems();
         //Cluster Manage with click actions in cluster and inside cluster markers :)
 
-        addItems();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Config.getMapCenterPosition(1, person_list), 5));
+        LatLng center_location = Config.getMapCenterPosition(1, person_list);
+
+        Location center_point = new Location("center_point");
+        center_point.setLatitude(center_location.latitude);
+        center_point.setLongitude(center_location.longitude);
+
+        float max_distance = 0;
+        int zoom = 15;
+        for (Person person : person_list) {
+
+            System.out.println(person.getPosition());
+            //mountain_list.add(mountain);
+            Location location_mountain = new Location("race_location");
+
+            location_mountain.setLatitude(person.getPosition().latitude);
+            location_mountain.setLongitude(person.getPosition().longitude);
+            float distance = center_point.distanceTo(location_mountain);
+            if (distance > max_distance) {
+                max_distance = distance;
+            }
+        }
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center_location, Config.getUseZoomInMap(max_distance)));
         mClusterManager = new ClusterManager<>(this, mMap);
         mClusterManager.setRenderer(new PersonClusterRenderer(this, mMap ,mClusterManager));
         mMap.setOnCameraChangeListener(mClusterManager);
@@ -134,7 +158,6 @@ public class MapsActivityWithClusterActions extends FragmentActivity
         person_list.add(new Person(position(), "John", R.drawable.john));
         person_list.add(new Person(position(), "Trevor the Turtle", R.drawable.turtle));
         person_list.add(new Person(position(), "Teach", R.drawable.teacher));
-
     }
 
     private LatLng position() {
