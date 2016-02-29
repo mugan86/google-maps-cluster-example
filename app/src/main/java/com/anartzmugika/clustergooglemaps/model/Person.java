@@ -9,7 +9,7 @@ import com.google.maps.android.clustering.ClusterItem;
 public class Person implements ClusterItem {
     public final String name;
     public final int profilePhoto;
-    private final LatLng mPosition;
+    private LatLng mPosition;
 
     public Person(LatLng position, String name, int pictureResource) {
         this.name = name;
@@ -25,6 +25,11 @@ public class Person implements ClusterItem {
     public String getName()
     {
         return this.name;
+    }
+
+    public void setmPosition(double lat, double lng)
+    {
+        mPosition = new LatLng(lat, lng);
     }
 
 }
