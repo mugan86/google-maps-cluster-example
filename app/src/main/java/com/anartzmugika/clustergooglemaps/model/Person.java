@@ -1,20 +1,27 @@
 package com.anartzmugika.clustergooglemaps.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 /***************************************
  * Created by anartzmugika on 27/2/16.
  */
-public class Person implements ClusterItem {
-    public final String name;
-    public final int profilePhoto;
+public class Person implements ClusterItem, Parcelable {
+    public String name;
+    public int profilePhoto;
     private LatLng mPosition;
 
     public Person(LatLng position, String name, int pictureResource) {
         this.name = name;
         profilePhoto = pictureResource;
         mPosition = position;
+    }
+
+    public Person(Parcel in) {
+        readFromParcel(in);
     }
 
     @Override
@@ -32,4 +39,33 @@ public class Person implements ClusterItem {
         mPosition = new LatLng(lat, lng);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(profilePhoto);
+        dest.writeParcelable(mPosition, flags);
+    }
+
+    public void readFromParcel(Parcel in)
+    {
+        name = in.readString();
+        profilePhoto = in.readInt();
+        mPosition = in.readParcelable(LatLng.class.getClassLoader());;
+    }
+
+    public static final Parcelable.Creator<Person> CREATOR
+            = new Parcelable.Creator<Person>() {
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
 }
