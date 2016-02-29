@@ -37,4 +37,29 @@ public class Config {
         LatLngBounds bounds = builder.build();
         return bounds.getCenter();
     }
+
+    public static int getUseZoomInMap(float max_distance)
+    {
+        max_distance = max_distance / 1000;
+
+        System.out.println("Max distance in kms: " + max_distance);
+        if (max_distance < 34) {
+            return 10;
+        } else if (max_distance > 24 && max_distance < 48) {
+            return 9;
+        } else if (max_distance > 48 && max_distance < 128) {
+            return 8;
+        } else if (max_distance > 128 && max_distance < 400) {
+            return 7;
+        } else if (max_distance > 400 && max_distance < 600) {
+            return 6;
+        } else if (max_distance > 600 && max_distance < 1300) {
+            return 5;
+        } else if (max_distance > 1300 && max_distance < 2500) {
+            return 4;
+        } else if (max_distance > 2500 && max_distance < 4000) {
+            return 3;
+        }
+        return 2;
+    }
 }
