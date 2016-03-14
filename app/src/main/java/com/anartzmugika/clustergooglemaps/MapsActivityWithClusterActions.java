@@ -149,7 +149,7 @@ public class MapsActivityWithClusterActions extends FragmentActivity
     private void addItems() {
 
         person_list = new ArrayList<>();
-        person_list.add(new Person(position(), "Walter", R.drawable.walter, "http://mw2.google.com/mw-panoramio/photos/medium/9112302.jpg"));
+        person_list.add(new Person(position(), "Walter", R.drawable.walter, "http://static.panoramio.com/photos/original/101779498.jpg"));
         person_list.add(new Person(position(), "Gran", R.drawable.gran, "http://mw2.google.com/mw-panoramio/photos/medium/14449320.jpg"));
         person_list.add(new Person(position(), "Ruth", R.drawable.ruth, "http://mw2.google.com/mw-panoramio/photos/medium/27049250.jpg"));
         person_list.add(new Person(position(), "Stefan", R.drawable.stefan, "http://mw2.google.com/mw-panoramio/photos/medium/20450379.jpg"));
