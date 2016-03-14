@@ -85,7 +85,7 @@ public class MapsActivityWithClusterActions extends FragmentActivity
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center_location, Config.getUseZoomInMap(max_distance)));
         mClusterManager = new ClusterManager<>(this, mMap);
-        mClusterManager.setRenderer(new PersonClusterRenderer(this, mMap ,mClusterManager));
+        mClusterManager.setRenderer(new PersonClusterRenderer(this, mMap ,mClusterManager, MapsActivityWithClusterActions.this));
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
         mMap.setOnInfoWindowClickListener(mClusterManager);
