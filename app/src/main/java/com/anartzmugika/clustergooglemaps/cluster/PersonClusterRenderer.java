@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.anartzmugika.clustergooglemaps.Config;
 import com.anartzmugika.clustergooglemaps.R;
 import com.anartzmugika.clustergooglemaps.model.Person;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,7 +50,8 @@ public class PersonClusterRenderer extends DefaultClusterRenderer<Person> {
 
         markerOptions.title(item.getName());
         markerOptions.snippet(item.getPosition().toString());
-        mImageView.setImageResource(item.profilePhoto);
+        mImageView.setImageBitmap(Config.getBitmapFromURL(item.getPhoto_url()));
+        //mImageView.setImageResource(item.profilePhoto); //Use with drawable
         Bitmap icon = mIconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.name);
     }
