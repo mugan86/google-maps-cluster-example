@@ -149,15 +149,15 @@ public class MapsActivityWithClusterActions extends FragmentActivity
     private void addItems() {
 
         person_list = new ArrayList<>();
-        person_list.add(new Person(position(), "Walter", R.drawable.walter));
-        person_list.add(new Person(position(), "Gran", R.drawable.gran));
-        person_list.add(new Person(position(), "Ruth", R.drawable.ruth));
-        person_list.add(new Person(position(), "Stefan", R.drawable.stefan));
-        person_list.add(new Person(position(), "Mechanic", R.drawable.mechanic));
-        person_list.add(new Person(position(), "Yeats", R.drawable.yeats));
-        person_list.add(new Person(position(), "John", R.drawable.john));
-        person_list.add(new Person(position(), "Trevor the Turtle", R.drawable.turtle));
-        person_list.add(new Person(position(), "Teach", R.drawable.teacher));
+        person_list.add(new Person(position(), "Walter", R.drawable.walter, "http://mw2.google.com/mw-panoramio/photos/medium/9112302.jpg"));
+        person_list.add(new Person(position(), "Gran", R.drawable.gran, "http://mw2.google.com/mw-panoramio/photos/medium/14449320.jpg"));
+        person_list.add(new Person(position(), "Ruth", R.drawable.ruth, "http://mw2.google.com/mw-panoramio/photos/medium/27049250.jpg"));
+        person_list.add(new Person(position(), "Stefan", R.drawable.stefan, "http://mw2.google.com/mw-panoramio/photos/medium/20450379.jpg"));
+        person_list.add(new Person(position(), "Mechanic", R.drawable.mechanic, "http://mw2.google.com/mw-panoramio/photos/medium/8636065.jpg"));
+        person_list.add(new Person(position(), "Yeats", R.drawable.yeats, "http://mw2.google.com/mw-panoramio/photos/medium/8636188.jpg"));
+        person_list.add(new Person(position(), "John", R.drawable.john, "http://mw2.google.com/mw-panoramio/photos/medium/90076639.jpg"));
+        person_list.add(new Person(position(), "Trevor the Turtle", R.drawable.turtle, "http://mw2.google.com/mw-panoramio/photos/medium/89815173.jpg"));
+        person_list.add(new Person(position(), "Teach", R.drawable.teacher, "http://mw2.google.com/mw-panoramio/photos/medium/90080431.jpg"));
     }
 
     private LatLng position() {
