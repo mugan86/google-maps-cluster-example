@@ -26,6 +26,7 @@ public class PersonClusterRenderer extends DefaultClusterRenderer<Person> {
     private IconGenerator mClusterIconGenerator;
     private final ImageView mImageView;
     private final int mDimension;
+    private Activity activity;
     public PersonClusterRenderer(Context context, GoogleMap map,
                                  ClusterManager<Person> clusterManager, Activity activity) {
         super(context, map, clusterManager);
@@ -42,6 +43,7 @@ public class PersonClusterRenderer extends DefaultClusterRenderer<Person> {
         int padding = (int) activity.getResources().getDimension(R.dimen.custom_profile_padding);
         mImageView.setPadding(padding, padding, padding, padding);
         mIconGenerator.setContentView(mImageView);
+        this.activity = activity;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class PersonClusterRenderer extends DefaultClusterRenderer<Person> {
 
         markerOptions.title(item.getName());
         markerOptions.snippet(item.getPosition().toString());
-        mImageView.setImageBitmap(Config.getBitmapFromURL(item.getPhoto_url()));
+        mImageView.setImageBitmap(Config.downloadImage(item.getPhoto_url()));
         //mImageView.setImageResource(item.profilePhoto); //Use with drawable
         Bitmap icon = mIconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.name);
