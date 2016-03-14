@@ -13,15 +13,25 @@ public class Person implements ClusterItem, Parcelable {
     public String name;
     public int profilePhoto;
     private LatLng mPosition;
+    private String photo_url;
 
-    public Person(LatLng position, String name, int pictureResource) {
+    public Person(LatLng position, String name, int pictureResource, String photo_url) {
         this.name = name;
         profilePhoto = pictureResource;
         mPosition = position;
+        this.photo_url = photo_url;
     }
 
     public Person(Parcel in) {
         readFromParcel(in);
+    }
+
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 
     @Override
