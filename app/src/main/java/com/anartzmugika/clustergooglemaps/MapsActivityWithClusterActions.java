@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.anartzmugika.clustergooglemaps.cluster.PersonClusterRenderer;
+import com.anartzmugika.clustergooglemaps.model.MapModel;
 import com.anartzmugika.clustergooglemaps.model.Person;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,7 +28,6 @@ public class MapsActivityWithClusterActions extends FragmentActivity
                                                         ClusterManager.OnClusterItemClickListener<Person>,
                                                         ClusterManager.OnClusterItemInfoWindowClickListener<Person> {
 
-    private GoogleMap mMap;
     private ClusterManager<Person> mClusterManager;
     private Random mRandom = new Random(1984);
     private ArrayList<Person> person_list;
@@ -55,7 +55,7 @@ public class MapsActivityWithClusterActions extends FragmentActivity
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        MapModel mapModel = new MapModel(googleMap, true, true);
 
         addItems();
         //Cluster Manage with click actions in cluster and inside cluster markers :)
@@ -83,12 +83,12 @@ public class MapsActivityWithClusterActions extends FragmentActivity
         }
 
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center_location, Config.getUseZoomInMap(max_distance)));
-        mClusterManager = new ClusterManager<>(this, mMap);
-        mClusterManager.setRenderer(new PersonClusterRenderer(this, mMap ,mClusterManager, MapsActivityWithClusterActions.this));
-        mMap.setOnCameraChangeListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
-        mMap.setOnInfoWindowClickListener(mClusterManager);
+        mapModel.moveCamera(center_location, max_distance);
+        mClusterManager = new ClusterManager<>(this, mapModel.getGoogleMap());
+        mClusterManager.setRenderer(new PersonClusterRenderer(this, mapModel.getGoogleMap() ,mClusterManager, MapsActivityWithClusterActions.this));
+        mapModel.getGoogleMap().setOnCameraChangeListener(mClusterManager);
+        mapModel.getGoogleMap().setOnMarkerClickListener(mClusterManager);
+        mapModel.getGoogleMap().setOnInfoWindowClickListener(mClusterManager);
         mClusterManager.setOnClusterClickListener(this);
         mClusterManager.setOnClusterInfoWindowClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);
@@ -100,9 +100,7 @@ public class MapsActivityWithClusterActions extends FragmentActivity
 
         mClusterManager.cluster();
 
-        Config.getGoogleMapUISettings(mMap, true, true);
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mapModel.getGoogleMap().setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker arg0) {
 
